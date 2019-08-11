@@ -1,11 +1,6 @@
-input[type=text] {
-  width: 130px;
-  -webkit-transition: width 0.4s ease-in-out;
-  transition: width 0.4s ease-in-out;
-  margin-top: 25px;
-}
-
-/* When the input field gets focus, change its width to 100% */
-input[type=text]:focus {
-  width: 50%;
+.search{
+display: flex;
+flex-wrap: wrap;
+width: 40%;
+margin-top: 30px;
 }
