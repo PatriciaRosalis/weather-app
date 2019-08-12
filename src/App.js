@@ -1,22 +1,20 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import './App.scss';
-import Loading from './Components/Loading';
-import Image from './Components/Image';
-import MyCard from './Components/MyCard';
-import Nav from './Components/Nav';
-import Search from './Components/Search';
+import Fav from './Components/Fav';
+import FiveDays from './Components/FiveDays';
+import HomePage from './Components/HomePage';
 
 function App() {
   return (
     <div className="App">
-      <Search />
-      <Loading />
-      <Image />
-      <br />
-      <MyCard />
-      <br />
-      <br />
-      <Nav />
+
+      <Switch>
+        <Route path="/" exact component={HomePage} />
+        <Route path="/Favorites" component={Fav} />
+        <Route path="/Five-Days-Weather" component={FiveDays} />
+      </Switch>
+      
     </div>
   );
 }
