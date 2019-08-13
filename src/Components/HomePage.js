@@ -4,8 +4,9 @@ import Image from './Image';
 import MyCard from './MyCard';
 import Nav from './Nav';
 import Search from './Search';
-import Fav from './Fav';
+import MyFav from './MyFav';
 import '../Style/Card.scss';
+import CardList from './CardList';
 import Axios from 'axios';
 
 export default class HomePage extends Component {
@@ -18,7 +19,8 @@ export default class HomePage extends Component {
         moment: ""
       },
       date: "",
-      cityName: ""
+      cityName: "",
+      favorites: [] 
     }
   }
 
@@ -27,21 +29,48 @@ export default class HomePage extends Component {
 
   }
 
+  componentDidMount = () => {
+    navigator.geolocation.getCurrentPosition((location) => {
+      const lat = location.coords.latitude;
+      const lon = location.coords.longitude;
+      console.log("location.", lat, lon);
+      this.getCoordinates(lat, lon)
+    })
+    this.getFavorites();
+  }
+
+  getCoordinates = (lat, lon) => {
+    Axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=db7a34f6242741bf3b0fc2fecfaefc18`)
+      .then(response => {
+        this.handleApiResponse(response);
+      })
+  }
+
   getCurrentTemp = (cityName) => {
     Axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=db7a34f6242741bf3b0fc2fecfaefc18`)
       .then(response => {
-        const date = new Date(response.data.dt * 1000)
-        this.setState({
-          cityName: response.data.name,
-          temp: {
-            min: response.data.main.temp_min,
-            max: response.data.main.temp_max,
-            moment: response.data.main.temp,
-          },
-          date: `${date.getDate().toString()}/${(date.getMonth() + 1).toString()}`
-        })
-        console.log("response", this.state)
+        this.handleApiResponse(response);
       })
+  }
+
+  getFavorites = () => {
+    const favorites = JSON.parse(localStorage.getItem('favorites'));
+    if (favorites) {
+      this.setState({favorites: favorites});
+    }
+  }
+
+  handleApiResponse = (response) => {
+    const date = new Date(response.data.dt * 1000)
+    this.setState({
+      cityName: response.data.name,
+      temp: {
+        min: response.data.main.temp_min,
+        max: response.data.main.temp_max,
+        moment: response.data.main.temp,
+      },
+      date: `${date.getDate().toString()}/${(date.getMonth() + 1).toString()}`
+    })
   }
 
   handleOnEnter = (cityName) => {
@@ -49,22 +78,53 @@ export default class HomePage extends Component {
     console.log("handleOnEnter", cityName)
   }
 
+  handleOnFavorite = () => {
+    const isFavorite = this.state.favorites.includes(this.state.cityName)
+    let newFavorites;
+
+    if(isFavorite) {
+      newFavorites = this.state.favorites.filter(city => {
+        return city !== this.state.cityName
+      });
+    } else {
+      newFavorites = this.state.favorites;
+      newFavorites.push(this.state.cityName);
+    }
+    this.setState({
+      favorites: newFavorites
+    });
+    localStorage.setItem("favorites", JSON.stringify(newFavorites))
+  }
+
+  handleOnFavoriteSelect = (cityName) => {
+    this.getCurrentTemp(cityName)
+  }
+
   render() {
     let info;
+    let fav;
 
     if (this.state.cityName) {
       info = <MyCard temp={this.state.temp} date={this.state.date} cityName={this.state.cityName} />
     } else {
-      info = <p>Please, select a city.</p>
+      info = "";
+    }
+
+    if (this.state.cityName) {
+      fav = <MyFav isFavorite={this.state.favorites.includes(this.state.cityName)} onFavorite={this.handleOnFavorite}/>
     }
 
     return (
       <div>
         <Search onEnter={this.handleOnEnter} />
-        <Fav />
+        <CardList favorites={this.state.favorites} onFavoriteSelect={this.handleOnFavoriteSelect} />
         <Loading />
         <Image />
         <br />
+        <div className="name-fav">
+          {fav}
+          <span >{this.state.cityName ? this.state.cityName : "Please, select a city."}</span>
+        </div>
         <div className="flex-card">
           {info}
         </div>

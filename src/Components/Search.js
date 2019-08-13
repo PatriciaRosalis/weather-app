@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import '../Style/Search.scss';
 import Input from '@material-ui/core/Input';
 import axios from 'axios';
@@ -35,7 +36,8 @@ export default class Search extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="search-father">
+        {/* <Link className="home" to="/">Home</Link> */}
         <Input onChange={c => this.handleValueChange(c)} className="search" placeholder="Search" inputProps={{ 'aria-label': 'description', }} onKeyPress={this.handleKeyPress} />
       </div>
     )

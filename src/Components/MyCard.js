@@ -5,24 +5,23 @@ import Typography from '@material-ui/core/Typography';
 import '../Style/Card.scss';
 
 export default class MyCard extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
+
+    let moment;
+
+    if (this.props.temp && this.props.temp.moment) {
+      moment = <Typography variant="h5" id="graus" component="h2">
+      {this.props.temp.moment}º
+    </Typography>
+    }
       return (
         <Card className="card1 card">
           <CardContent>
-            <Typography className="title" color="textSecondary" gutterBottom>
-              {this.props.cityName}
+            <Typography className="title"  gutterBottom>
+              {this.props.temp.min}º/{this.props.temp.max}º
             </Typography>
-            <Typography className="title" color="textSecondary" gutterBottom>
-              {this.props.temp.min}/{this.props.temp.max}
-            </Typography>
-            <Typography variant="h5" id="graus" component="h2">
-              {this.props.temp.moment}
-            </Typography>
-            <Typography variant="body2" component="p">
+            {moment}
+            <Typography className="title-date"  component="p">
               {this.props.date}
             </Typography>
           </CardContent>

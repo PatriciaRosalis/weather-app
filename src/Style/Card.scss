@@ -18,16 +18,24 @@
 .flex-card {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 .card {
-  min-width: 275;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 40px;
+  margin-right: 10px;
+  margin-top: 30px;
+
+  &:last-child {
+    margin-right: 0px;
+  }
 }
 
-title {
-  font-size: 14px,
+.title {
+  font-size: 15px;
+  color: #F76E4B;
+}
+
+.title-date {
+  font-size: 14px;
+  font-weight: bold;
 }
