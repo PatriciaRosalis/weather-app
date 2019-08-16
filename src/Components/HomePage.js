@@ -40,14 +40,14 @@ export default class HomePage extends Component {
   }
 
   getCoordinates = (lat, lon) => {
-    Axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=db7a34f6242741bf3b0fc2fecfaefc18`)
+    Axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=039e336e1a5e229ad3e4f3da54a7aedf`)
       .then(response => {
         this.handleApiResponse(response);
       })
   }
 
   getCurrentTemp = (cityName) => {
-    Axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=db7a34f6242741bf3b0fc2fecfaefc18`)
+    Axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=039e336e1a5e229ad3e4f3da54a7aedf`)
       .then(response => {
         this.handleApiResponse(response);
       })
