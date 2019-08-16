@@ -16,7 +16,7 @@ export default class Search extends Component {
   }
 
   getWeatherForCity = () => {
-    axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=London,us&units=metric&appid=039e336e1a5e229ad3e4f3da54a7aedf`)
+    axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=London,us&units=metric&appid=039e336e1a5e229ad3e4f3da54a7aedf`)
       .then(response => {
         this.getDataFromList(response.data.list)
         return response.data.list

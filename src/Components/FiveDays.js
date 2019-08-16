@@ -23,7 +23,7 @@ export default class FiveDays extends Component {
   }
 
   getFiveDays = (cityName) => {
-    axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=039e336e1a5e229ad3e4f3da54a7aedf&units=metric`)
+    axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=039e336e1a5e229ad3e4f3da54a7aedf&units=metric`)
       .then(response => {
         this.getDataFromList(response.data.list)
         this.setState({
